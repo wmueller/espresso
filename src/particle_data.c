@@ -1079,7 +1079,10 @@ int tclcommand_part_parse_pos(Tcl_Interp *interp, int argc, char **argv,
 {
   double pos[3];
   int j;
-
+  if (argc>0 && ARG_IS_3VECTOR(0,pos)) {
+    *change = 1;  
+  }  
+  else {
   *change = 3;
 
   if (argc < 3) {
@@ -1091,7 +1094,7 @@ int tclcommand_part_parse_pos(Tcl_Interp *interp, int argc, char **argv,
   for (j = 0; j < 3; j++)
     if (! ARG_IS_D(j, pos[j]))
       return TCL_ERROR;
-
+  }
   if (place_particle(part_num, pos) == TCL_ERROR) {
     Tcl_AppendResult(interp, "particle could not be set", (char *) NULL);
 
